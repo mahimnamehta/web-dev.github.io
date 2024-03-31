@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="data:">
+    <title>New contact</title>
+    <style>
+        body{
+            font-family: Tahoma;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        new contact
+    </h1>
+    <table>
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>
+                <input type="text" id="txtName" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Email:
+            </td>
+            <td>
+                <input type="text" id="txtEmail" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Category:
+            </td>
+            <td>
+                <select id="selCategory">
+                    <option value="0">basic</option>
+                    <option value="1">standard</option>
+                    <option value="2">premium</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <br />
+
+    <input type="button" value="create contact" onclick="btnCreateContact_onClick()"/>
+
+    <script>
+        function btnCreateContact_onClick() {
+            var contact = {};
+            contact.name = document.getElementById("txtName").value;
+            contact.Email = document.getElementById("txtEmail").value;
+            contact.category = document.getElementById("selCategory").value;
+
+            if (contact.name == "") {
+                alert("please inform the name");
+                return;
+            }
+            else if (contact.Email == "") {
+                alert("please inform the email");
+                return;
+            }
+
+            window.opener.receiveContactData(contact);
+            window.close();
+        }
+    </script>
+</body>
+</html>

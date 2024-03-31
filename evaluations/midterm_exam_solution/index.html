@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>SDI Management System</title>
+    <link rel="icon" type="image/x-icon" href="data:" />
+    <style>
+        body {
+            font-family: Tahoma;
+        }
+
+        h1 {
+            font-style: italic;
+            color: white;
+            background-color: gray;
+            padding: 20px;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid silver;
+            text-align: center;
+            padding: 10px;
+        }
+
+        img {
+            cursor: pointer;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>SDI Management System</h1>
+
+    <input type="button" value="Add Car" style="padding:20px; color:blue; font-weight:bold;" onclick="btnAdd_onclick()" />
+
+    <table id="tblMyTable" class="show-border" style="margin-top:20px; display:none;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Model Name</th>
+                <th>Number of Seats</th>
+                <th>Engine Type</th>
+                <th>Operating System</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tblMyTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        //*** SUPPORT FUNCTIONS
+
+        function receiveCarData(car) {
+
+            let tblMyTableBody = document.getElementById("tblMyTableBody");
+
+            if (tblMyTableBody.children.length == 0)
+                car.id = 1;
+            else
+                car.id = parseInt(tblMyTableBody.lastChild.children[0].innerText) + 1;
+
+            let row = document.createElement("tr");
+
+            let colId = document.createElement("td");
+            colId.innerText = car.id;
+
+            let colModelName = document.createElement("td");
+            let txtModelName = document.createElement("input");
+            txtModelName.type = "text";
+            txtModelName.className = "txtModelName";
+            txtModelName.value = car.modelName;
+            txtModelName.disabled = "disabled";
+            colModelName.appendChild(txtModelName);
+
+            let colNumberOfSeats = document.createElement("td");
+            let txtNumberOfSeats = document.createElement("input");
+            txtNumberOfSeats.type = "number";
+            txtNumberOfSeats.className = "txtNumberOfSeats";
+            txtNumberOfSeats.value = car.numberOfSeats;
+            txtNumberOfSeats.disabled = "disabled";
+            colNumberOfSeats.appendChild(txtNumberOfSeats);
+
+            let colEngineType = document.createElement("td");
+            let selEngineType = document.createElement("select");
+            selEngineType.appendChild(createSelectOption("Electric", "E")); // Electric = E
+            selEngineType.appendChild(createSelectOption("Gas", "G")); // Gas = G
+            selEngineType.value = car.engineType;
+            selEngineType.className = "selEngineType";
+            selEngineType.disabled = "disabled";
+            colEngineType.appendChild(selEngineType);
+
+            let colOperatingSystem = document.createElement("td");
+            let selOperatingSystem = document.createElement("select");
+            selOperatingSystem.appendChild(createSelectOption("Linux", "L")); // Linux = L
+            selOperatingSystem.appendChild(createSelectOption("Windows", "W")); // Windows = W
+            selOperatingSystem.value = car.operatingSystem;
+            selOperatingSystem.className = "selOperatingSystem";
+            selOperatingSystem.disabled = "disabled";
+            colOperatingSystem.appendChild(selOperatingSystem);
+
+            let colActions = document.createElement("td");
+
+            let btnEdit = document.createElement("img");
+            btnEdit.src = "/shared_assets/images/edit.png";
+            btnEdit.title = "Edit";
+            btnEdit.className = "btnEdit";
+            btnEdit.addEventListener("click", btnEdit_onclick);
+            colActions.appendChild(btnEdit);
+
+            let btnRemove = document.createElement("img");
+            btnRemove.src = "/shared_assets/images/remove.png";
+            btnRemove.title = "Remove";
+            btnRemove.className = "btnRemove";
+            btnRemove.addEventListener("click", btnRemove_onclick);
+            colActions.appendChild(btnRemove);
+
+            let btnSave = document.createElement("img");
+            btnSave.src = "/shared_assets/images/save.png";
+            btnSave.title = "Save";
+            btnSave.className = "btnSave";
+            btnSave.style.display = "none";
+            btnSave.addEventListener("click", btnSave_onclick);
+            colActions.appendChild(btnSave);
+
+            let btnCancel = document.createElement("img");
+            btnCancel.src = "/shared_assets/images/cancel.png";
+            btnCancel.title = "Cancel";
+            btnCancel.className = "btnCancel";
+            btnCancel.style.display = "none";
+            btnCancel.addEventListener("click", btnCancel_onclick);
+            colActions.appendChild(btnCancel);
+
+            row.appendChild(colId);
+            row.appendChild(colModelName);
+            row.appendChild(colNumberOfSeats);
+            row.appendChild(colEngineType);
+            row.appendChild(colOperatingSystem);
+            row.appendChild(colActions);
+
+            tblMyTableBody.appendChild(row);
+
+            document.getElementById("tblMyTable").style.display = "";
+        }
+
+        function createSelectOption(text, value) {
+            let option = document.createElement("option");
+            option.value = value;
+            option.text = text;
+            return option;
+        }
+
+        function closeEditRow(row, restoreOriginalValues) {
+            let txtModelName = row.getElementsByClassName("txtModelName")[0];
+            txtModelName.disabled = "disabled";
+            if (restoreOriginalValues)
+                txtModelName.value = txtModelName.getAttribute("data-originalValue");
+
+            let txtNumberOfSeats = row.getElementsByClassName("txtNumberOfSeats")[0];
+            txtNumberOfSeats.disabled = "disabled";
+            if (restoreOriginalValues)
+                txtNumberOfSeats.value = txtNumberOfSeats.getAttribute("data-originalValue");
+
+            let selEngineType = row.getElementsByClassName("selEngineType")[0];
+            selEngineType.disabled = "disabled";
+            if (restoreOriginalValues)
+                selEngineType.value = selEngineType.getAttribute("data-originalValue");
+
+            let selOperatingSystem = row.getElementsByClassName("selOperatingSystem")[0];
+            selOperatingSystem.disabled = "disabled";
+            if (restoreOriginalValues)
+                selOperatingSystem.value = selOperatingSystem.getAttribute("data-originalValue");
+
+            row.getElementsByClassName("btnEdit")[0].style.display = "";
+            row.getElementsByClassName("btnRemove")[0].style.display = "";
+            row.getElementsByClassName("btnSave")[0].style.display = "none";
+            row.getElementsByClassName("btnCancel")[0].style.display = "none";
+        }
+    </script>
+
+    <script>
+        //*** EVENT HANDLERS
+
+        function btnAdd_onclick() {
+            window.open("car_popup.html", "", "width=510,height=375,left=400,top=200");
+        }
+
+        function btnEdit_onclick(e) {
+            let row = e.srcElement.parentElement.parentElement;
+
+            let txtModelName = row.getElementsByClassName("txtModelName")[0];
+            txtModelName.setAttribute("data-originalValue", txtModelName.value);
+            txtModelName.disabled = "";
+
+            let txtNumberOfSeats = row.getElementsByClassName("txtNumberOfSeats")[0];
+            txtNumberOfSeats.setAttribute("data-originalValue", txtNumberOfSeats.value);
+            txtNumberOfSeats.disabled = "";
+
+            let selEngineType = row.getElementsByClassName("selEngineType")[0];
+            selEngineType.setAttribute("data-originalValue", selEngineType.value);
+            selEngineType.disabled = "";
+
+            let selOperatingSystem = row.getElementsByClassName("selOperatingSystem")[0];
+            selOperatingSystem.setAttribute("data-originalValue", selOperatingSystem.value);
+            selOperatingSystem.disabled = "";
+
+            row.getElementsByClassName("btnEdit")[0].style.display = "none";
+            row.getElementsByClassName("btnRemove")[0].style.display = "none";
+            row.getElementsByClassName("btnSave")[0].style.display = "";
+            row.getElementsByClassName("btnCancel")[0].style.display = "";
+        }
+
+        function btnCancel_onclick(e) {
+            let row = e.srcElement.parentElement.parentElement;
+            closeEditRow(row, true);
+        }
+
+        function btnRemove_onclick(e) {
+            if (!confirm("Do you really want to remove?"))
+                return;
+
+            let row = e.srcElement.parentElement.parentElement;
+            document.getElementById("tblMyTableBody").removeChild(row);
+        }
+
+        function btnSave_onclick(e) {
+            let row = e.srcElement.parentElement.parentElement;
+
+            let numberOfSeats = row.getElementsByClassName("txtNumberOfSeats")[0].value;
+
+            if (row.getElementsByClassName("txtModelName")[0].value == "") {
+                alert("Please, inform the model name");
+                return;
+            }
+            else if (numberOfSeats == "") {
+                alert("Please, inform the number of seats");
+                return;
+            }
+            else if (parseInt(numberOfSeats) <= 0) {
+                alert("The number of seats should be greater than zero");
+                return;
+            }
+
+            closeEditRow(row, false);
+        }
+    </script>
+</body>
+</html>

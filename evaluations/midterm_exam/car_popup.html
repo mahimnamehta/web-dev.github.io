@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="data:">
+    <title>Page Title</title>
+    <style>
+        body {
+            font-family: Tahoma;
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: dimgray; padding: 20px; text-align: center;">
+        <h1 class="white-text" style="color:white">New Car</h1>
+    </div>
+    <br />
+    <table>
+        <tr>
+            <td>
+                Model Name:
+            </td>
+            <td>
+                <input type="text" id="txtModel" placeholder="Model Name" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Number of seats:
+            </td>
+            <td>
+                <input type="number" id="Seats" min="1" placeholder="Number of Seats" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Engine Type:
+            </td>
+            <td style="text-align:left">
+                <select id="selEngineType">
+                    <option value="0">Electric</option>
+                    <option value="1">Gas</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Operating System:
+            </td>
+            <td style="text-align:left">
+                <select id="selOS">
+                    <option value="0">Linux</option>
+                    <option value="1">Windows</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <input type="button" value="Create Car" style="color: blue; padding: 40px 100px;" onclick="btnCreateCar_onClick()" />
+    <button class="button" style="padding: 40px 100px; " onclick="window.close()">Cancel</button>
+
+    <script>
+        function btnCreateCar_onClick() {
+            var car = {};
+            car.modelName = document.getElementById("txtModel").value;
+            car.NumberOfSeats = document.getElementById("Seats").value;
+            car.EngineType = document.getElementById("selEngineType").value;
+            car.operatingSystem = document.getElementById("selOS").value;
+
+            if (car.modelName == "") {
+                alert("please enter car model");
+                return;
+            }
+            else if (car.NumberOfSeats == "") {
+                alert("please chooes car seats");
+                return;
+            }
+
+            window.opener.receiveCarData(car);
+            window.close();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+        <!-- Code Written By
+    Mahimna Mehta
+    2331798 -->
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="data:" />
+    <title>New Login</title>
+    <style>
+        body {
+            font-family: Tahoma;
+        }
+
+        .right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>New Login</h1>
+
+    <table>
+        <tr>
+            <td class="right">
+                Url
+            </td>
+            <td>
+                <input type="text" id="txtLoginUrl" />
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                UserName
+            </td>
+            <td>
+                <input type="text" id="txtLoginUserName" />
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                Password
+            </td>
+            <td>
+                <input type="password" id="txtLoginPassword" />
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                Re-Enter Password
+            </td>
+            <td>
+                <input type="password" id="txtLoginRePassword" />
+            </td>
+        </tr>
+    </table>
+
+    <br />
+
+    <input id="btnCreateTask" type="button" value="Create new Task" />
+
+    <!-- Including jQuery (check https://releases.jquery.com/ to get the latest version) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $("#btnCreateTask").on("click", btnCreateTask_onclick);
+        });
+
+        function btnCreateTask_onclick() {
+			var loginData = new Object();
+            loginData.url = $("#txtLoginUrl").val();
+            loginData.username = $("#txtLoginUserName").val();
+            loginData.password = $("#txtLoginPassword").val();
+            loginData.repass = $("#txtLoginRePassword").val();
+
+            // console.log('btnCreateTask_onclick() - debugging here - using console.log to check if getting the value as needed.')
+			// console.log({
+			// 	"url":loginData.url,
+			// 	"username":  loginData.username,
+			// 	"password":  loginData.password ,
+			// 	"re-password": loginData.repass,
+			// });
+			// console.log('btnCreateTask_onclick() - debugging here - using console.log to check if getting the value as needed.')
+
+            if (loginData.url == "" || loginData.username == "" || loginData.password == "" || loginData.repass == "") {
+                alert("All fields are required");
+                return;
+            } else if (loginData.password != loginData.repass){
+				alert("Password does not match!");
+                return;
+			}
+            window.opener.receiveLoginData(loginData, true);
+            window.close();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+        <!-- Code Written By
+    Mahimna Mehta
+    2331798 -->
+    <meta charset="utf-8" />
+    <title>Login Manager Version 2</title>
+    <link rel="icon" type="image/x-icon" href="data:" />
+    <link rel="stylesheet" href="/evaluations/final_project/css/login_manager.css" />
+</head>
+
+<body>
+    <input type="hidden" id="studentNumber" value="100" />
+
+    <h1>Login Manager Version 2</h1>
+
+    <p>
+        Create, update, and delete tasks using jQuery. This version will save tasks on a remote web server via ajax calls.
+    </p>
+
+    <!-- <p>
+        <a href="/index.html">Home</a>
+    </p> -->
+
+    <input id="btnAdd" type="button" value="Add Login" />
+
+    <table id="tblMyTable" style="margin-top:20px; display:none;">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Url</td>
+                <td>UserName</td>
+                <td>Password</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody id="tblMyTableBody">
+        </tbody>
+    </table>
+
+    <!-- Including jQuery (check https://releases.jquery.com/ to get the latest version) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        //*** SUPPORT FUNCTIONS
+		// all good here
+        function displayLoadedLoginData(listOfLogs) {
+			if(listOfLogs.length == 0){
+				$("#tblMyTable").hide();
+			}else{
+				for (let i = 0; i < listOfLogs.length; i++) {
+					let logs = listOfLogs[i];
+					receiveLoginData(logs, false);
+				}
+			}
+        }
+		// all good here
+        function receiveLoginData(logs, save) {
+		console.log('debugging here - data receieved to main file');
+		console.log('logindata',logs,save);
+		console.log('debugging here - data receieved to main file');
+// all good here
+            let tblMyTableBody = $("#tblMyTableBody");
+// all good here
+            if (logs.id == undefined) {
+                if (tblMyTableBody.children().length == 0)
+				logs.id = 1;
+                else
+				logs.id = parseInt(tblMyTableBody.find("tr").last().find("td").first().text()) + 1;
+            }
+// all good here
+            let row = $("<tr>");
+// all good here
+            let id = $("<td>").text(logs.id);
+// all good here
+			let url = $("<td>");
+            let lnkIssueUrl = $("<a>").addClass("lnkIssueUrl")
+                                      .attr("target", "_blank")
+                                      .attr("href", logs.url)
+                                      .text(logs.url).show();
+            let txtLoginUrl = $("<input>").attr("type", "text").addClass("txtLoginUrl").val(logs.url).hide();
+            url.append(lnkIssueUrl, txtLoginUrl);
+// all good here
+            let username = $("<td>");
+			let spanLoginUserName = $("<span>").addClass("spanLoginUserName").text(logs.username).show();
+            let txtLoginUserName = $("<input>").attr("type", "text").addClass("txtLoginUserName").val(logs.username).hide();
+            username.append(spanLoginUserName,txtLoginUserName);
+// all good here
+            let password = $("<td>");
+			let spanLoginPassword = $("<span>").addClass("spanLoginPassword").text('***').show();
+            let txtLoginPassword = $("<input>").attr("type", "password").addClass("txtLoginPassword").val(logs.password).hide();
+			let txtLoginRePass = $("<input>").attr("type", "password").addClass("txtLoginRePassword").val(logs.repassword).hide();
+            let passMeter = $("<div>").attr('id','pswmeter').hide();
+            password.append(spanLoginPassword,txtLoginPassword,txtLoginRePass,passMeter);
+// all good here
+            let colActions = $("<td>");
+// all good here
+            let btnEdit = $("<img>").attr("src", "/shared_assets/images/edit.png").attr("title", "Edit").addClass("btnEdit").on("click", btnEdit_onclick);
+            let btnPassChange = $("<img>").attr("src", "/shared_assets/images/password.png").attr("title", "Password").addClass("btnPassChange").on("click", btnPassChange_onclick);
+            let btnRemove = $("<img>").attr("src", "/shared_assets/images/remove.png").attr("title", "Remove").addClass("btnRemove").on("click", btnRemove_onclick);
+            let btnSave = $("<img>").attr("src", "/shared_assets/images/save.png").attr("title", "Save").addClass("btnSave").css("display", "none").on("click", btnSave_onclick);
+            let btnCancel = $("<img>").attr("src", "/shared_assets/images/cancel.png").attr("title", "Cancel").addClass("btnCancel").css("display", "none").on("click", btnCancel_onclick);
+// all good here
+            colActions.append(btnEdit, btnRemove, btnSave, btnCancel,btnPassChange);
+// all good here
+            row.append(id,url, username, password, colActions);
+// all good here
+            tblMyTableBody.append(row);
+// all good here
+            $("#tblMyTable").show();
+// all good here
+            if (save) {
+                saveToStorage(logs, function () {
+					closeEditRow(row, false);
+                });
+            }
+        }
+		// all good here
+        function createSelectOption(text, value) {
+            return $("<option>").text(text).val(value);
+        }
+		// all good here
+        function closeEditRow(row, restoreOriginalValues) {
+			let lnkIssueUrl = $(row).find(".lnkIssueUrl");
+            let txtLoginUrl = $(row).find(".txtLoginUrl");
+			let spanLoginUserName = $(row).find(".spanLoginUserName");
+            let txtLoginUserName =$(row).find(".txtLoginUserName");
+
+			// debugging here - using console.log to check if getting the value as needed.
+			// console.log({
+			// 	"1lnkIssueUrl":lnkIssueUrl.val(),
+			// 	"2txtLoginUrl":txtLoginUrl.val(),
+			// 	"3spanLoginUserName":spanLoginUserName.val(),
+			// 	"4txtLoginUserName":txtLoginUserName.val(),
+			// 	"5spanLoginPassword":spanLoginPassword.val(),
+			// 	"6txtLoginPassword":txtLoginPassword.val(),
+			// 	"7txtLoginRePass":txtLoginRePass.val(),
+			// });
+			// debugging here - using console.log to check if getting the value as needed.
+
+			lnkIssueUrl.show();
+        	txtLoginUrl.hide();
+
+			spanLoginUserName.show(); 
+        	txtLoginUserName.hide();
+
+		if (restoreOriginalValues) {
+            txtLoginUrl.val(lnkIssueUrl.text());
+            txtLoginUserName.val(spanLoginUserName.text());
+		} else{
+			lnkIssueUrl.text(txtLoginUrl.val()).attr("href", txtLoginUrl.val());
+            spanLoginUserName.text(txtLoginUserName.val());
+            txtLoginUserName.val(spanLoginUserName.text());
+        }
+
+           $(row).find(".btnEdit, .btnRemove, .btnPassChange").show();
+           $(row).find(".btnSave, .btnCancel").hide();
+        }
+		// all good here
+		function closePassEditRow(row, restoreOriginalValues) {
+			let spanLoginPassword = $(row).find(".spanLoginPassword");
+            let txtLoginPassword =$(row).find(".txtLoginPassword");
+        	let txtLoginRePass = $(row).find(".txtLoginRePassword");
+
+			// console.log('closePassEditRow() - debugging here - using console.log to check if getting the value as needed.')
+			// console.log({
+			// 	"1spanLoginPassword":spanLoginPassword.val(),
+			// 	"2txtLoginPassword":txtLoginPassword.val(),
+			// 	"3txtLoginRePass":txtLoginRePass.val(),
+			// });
+			// console.log('closePassEditRow() - debugging here - using console.log to check if getting the value as needed.')
+
+        	spanLoginPassword.show();
+        	txtLoginPassword.hide();
+        	txtLoginRePass.hide();
+
+		if (restoreOriginalValues) {
+            txtLoginPassword.val(spanLoginPassword.text());
+		} else{
+            spanLoginPassword.text('***');
+        }
+
+           $(row).find(".btnEdit, .btnRemove, .btnPassChange").show();
+           $(row).find(".btnSave, .btnCancel").hide();
+        }
+		// all good here
+        function getLoginDataFromRow(row) {
+            var loginData = new Object();
+            loginData.id = $(row).children().first().text();
+            loginData.url = $(row).find(".txtLoginUrl").first().val();
+            loginData.username = $(row).find(".txtLoginUserName").first().val();
+            loginData.password = $(row).find(".txtLoginPassword").first().val();
+            return loginData;
+        }
+    </script>
+
+    <script>
+		// all good here
+        $(document).ready(function () {
+            $("#btnAdd").on("click", btnAdd_onclick);
+        });
+		// all good here
+        function btnAdd_onclick() {
+            window.open("login_popup.html", "", "width=600,height=250,left=400,top=200");
+        }
+		// all good here
+        function btnEdit_onclick(e) {
+            let row = $(this).closest("tr");
+
+			$(row).find(".lnkIssueUrl").hide();
+        	$(row).find(".txtLoginUrl").show();
+
+            $(row).find(".spanLoginUserName").hide();
+            $(row).find(".txtLoginUserName").show();
+
+            $(row).find(".btnEdit, .btnRemove, btnPassChange").hide();
+            $(row).find(".btnSave, .btnCancel").show();
+        }
+		// all good here
+		function btnPassChange_onclick(e){
+            let row = $(this).closest("tr");
+
+			$(row).find(".spanLoginPassword").hide();
+            $(row).find(".txtLoginPassword").show();
+			$(row).find(".txtLoginRePassword").show();
+
+			$(row).find(".btnEdit, .btnRemove, .btnPassChange").hide();
+            $(row).find(".btnSave, .btnCancel").show();
+
+		}
+		// all good here
+        function btnCancel_onclick(e) {
+            let row = $(this).closest("tr");
+            closeEditRow(row, true);
+        }
+		// all good here
+        function btnRemove_onclick() {
+            if (!confirm("Do you really want to remove?"))
+                return;
+
+            let row = $(this).closest("tr");
+            let loginData = getLoginDataFromRow(row);
+
+            deleteFromStorage(loginData, function () {
+                $(row).remove();
+            });
+        }
+		// all good here
+        function btnSave_onclick() {
+            let row = $(this).closest("tr");
+            let loginData = getLoginDataFromRow(row);
+			
+			if (loginData.url == "" || loginData.username == "") {
+                alert("All fields are required");
+                return;
+			}
+            // } else if (loginData.loginPassword != repass){
+			// 	alert("Password does not match!");
+			// }
+            saveToStorage(loginData, function () {
+				console.log(loginData,'save to storage on save');
+                closeEditRow(row, false);
+				closePassEditRow(row,false);
+            });
+        }
+
+    </script>
+
+    <script src="./onlineStorage.js"></script>
+</body>
+</html>
