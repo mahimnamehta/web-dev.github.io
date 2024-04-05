@@ -1,3 +1,6 @@
+// <!-- Code Written By
+// Mahimna Mehta
+// 2331798 -->
 let db = null;
 
 initialize();
