@@ -74,10 +74,8 @@ function saveToStorage(log, callback) {
 }
 
 function deleteFromStorage(log, callback) {
-    // need to change the id type from string to int as it is stored as int on the database.
-    const id = parseInt(log.id, 10);
     let transaction = db.transaction("Logs", "readwrite");
-    let request = transaction.objectStore("Logs").delete(id);
+    let request = transaction.objectStore("Logs").delete(log.id);
 
     // console.log('deleteFromStorage() - debugging here - using console.log to check if getting the value as needed.')
     // console.log(log,'log');

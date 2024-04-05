@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Sweet Alert Examples</title>
+    <link rel="icon" type="image/x-icon" href="data:" />
+
+    <!-- Sweet Alert (check https://common.olemiss.edu/examples/sweet-alert/#download-section to get the latest version) -->
+    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+
+    <style>
+        body {
+            font-family: Tahoma;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sweet Alert Examples</h1>
+
+
+
+    <input type="button" value="Display a basic message" onclick="btnEx1_onclick();" />
+
+    <input type="button" value="Display a success message" onclick="btnEx2_onclick();" />
+
+    <input type="button" value="Display a confimation message" onclick="btnEx3_onclick();" />
+
+    <p>
+        Check
+        <a target="_blank" href="https://common.olemiss.edu/examples/sweet-alert/">https://common.olemiss.edu/examples/sweet-alert/</a>
+        for more examples
+    </p>
+
+    <script>
+        function btnEx1_onclick() {
+            swal("Here's a message!");
+        }
+
+        function btnEx2_onclick() {
+            swal("Good job!", "You clicked the button!", "success");
+        }
+
+        function btnEx3_onclick() {
+            swal({
+                  title: "Are you sure?",
+                  text: "You will not be able to recover this imaginary file!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Yes, delete it!",
+                  cancelButtonText: "No, cancel plx!",
+                  closeOnConfirm: false,
+                  closeOnCancel: false
+                },
+                function(isConfirm) {
+                  if (isConfirm) {
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                  }
+                  else {
+	                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                  }
+                }
+            );
+        }
+    </script>
+</body>
+</html>

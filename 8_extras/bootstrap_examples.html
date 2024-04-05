@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Bootstrap Examples</title>
+    <link rel="icon" type="image/x-icon" href="data:" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Including Bootstrap (check https://getbootstrap.com/docs/5.3/getting-started/introduction/#cdn-links to get the latest version)  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            margin: 50px;
+        }
+
+        summary {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bootstrap Examples</h1>
+
+    <!-- Grid System -->
+    <details>
+        <summary>Grid System</summary>
+
+        <p class="text-center">
+            Check
+            <a href="https://getbootstrap.com/docs/5.3/layout/grid/">https://getbootstrap.com/docs/5.3/layout/grid/</a>
+            for more
+        </p>
+
+        <div id="myContainer" class="container">
+
+
+            <div class="row">
+                <div class="col alert alert-info">
+                    1
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col alert alert-info">
+                    1
+                </div>
+
+                <div class="col alert alert-info">
+                    2
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col alert alert-info">
+                    1
+                </div>
+
+                <div class="col alert alert-info">
+                    2
+                </div>
+
+                <div class="col alert alert-info">
+                    3
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col alert alert-info">
+                    1
+                </div>
+
+                <div class="col alert alert-info">
+                    2
+                </div>
+
+                <div class="col alert alert-info">
+                    4
+                </div>
+
+                <div class="col alert alert-info">
+                    5
+                </div>
+
+                <div class="col alert alert-info">
+                    6
+                </div>
+
+                <div class="col alert alert-info">
+                    7
+                </div>
+
+                <div class="col alert alert-info">
+                    8
+                </div>
+
+                <div class="col alert alert-info">
+                    9
+                </div>
+
+                <div class="col alert alert-info">
+                    10
+                </div>
+
+                <div class="col alert alert-info">
+                    11
+                </div>
+
+                <div class="col alert alert-info">
+                    12
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- Form Controls -->
+    <details>
+        <summary>Form Controls</summary>
+
+        <p class="text-center">
+            Check
+            <a href="https://getbootstrap.com/docs/5.3/components/buttons/">https://getbootstrap.com/docs/5.3/components/buttons/</a>
+            for more
+        </p>
+
+        <input type="text" placeholder="Regular text box" />
+
+        <br /><br />
+
+        <input type="text" class="form-control" placeholder="Bootstrap text box" />
+
+        <br /><hr /><br />
+
+        <select>
+            <option>Regular combo box</option>
+            <option>Another option</option>
+        </select>
+
+        <br /><br />
+
+        <select class="form-control">
+            <option>Bootstrap combo box</option>
+            <option>Another option</option>
+        </select>
+    </details>
+
+    <!-- Tables -->
+    <details>
+        <summary>Tables</summary>
+
+        <p class="text-center">
+            Check
+            <a href="https://getbootstrap.com/docs/5.3/content/tables/">https://getbootstrap.com/docs/5.3/content/tables/</a>
+            for more
+        </p>
+
+        <strong>Regular Table:</strong>
+        <table>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+        </table>
+
+        <br />
+
+        <strong>Bootrap Table:</strong>
+        <table class="table">
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+        </table>
+    </details>
+
+    <!-- Buttons -->
+    <details>
+        <summary>Buttons</summary>
+
+        <p class="text-center">
+            Check
+            <a href="https://getbootstrap.com/docs/5.3/components/buttons/">https://getbootstrap.com/docs/5.3/components/buttons/</a>
+            for more
+        </p>
+
+        <input type="button" class="btn btn-info" value="Info Button" />
+        <input type="button" class="btn btn-primary" value="Primary Button" />
+        <input type="button" class="btn btn-secondary" value="Secondary Button" />
+        <input type="button" class="btn btn-success" value="Success Button" />
+        <input type="button" class="btn btn-warning" value="Warning Button" />
+        <input type="button" class="btn btn-danger" value="Danger Button" />
+
+        <br /><br />
+
+        <input type="button" class="btn btn-outline-info" value="Info Button" />
+        <input type="button" class="btn btn-outline-primary" value="Primary Button" />
+        <input type="button" class="btn btn-outline-secondary" value="Secondary Button" />
+        <input type="button" class="btn btn-outline-success" value="Success Button" />
+        <input type="button" class="btn btn-outline-warning" value="Warning Button" />
+        <input type="button" class="btn btn-outline-danger" value="Danger Button" />
+    </details>
+
+    <!-- Alerts -->
+    <details>
+        <summary>Alerts</summary>
+
+        <p class="text-center">
+            Check
+            <a href="https://getbootstrap.com/docs/5.3/components/alerts/">https://getbootstrap.com/docs/5.3/components/alerts/</a>
+            for more
+        </p>
+
+        <div class="alert alert-info">
+            <span>Info Message</span>
+        </div>
+
+        <div class="alert alert-primary">
+            <span>Primary Message</span>
+        </div>
+
+        <div class="alert alert-secondary">
+            <span>Secondary Message</span>
+        </div>
+
+        <div class="alert alert-success">
+            <span>Success Message</span>
+        </div>
+
+        <div class="alert alert-warning">
+            <span>Warning Message</span>
+        </div>
+
+        <div class="alert alert-danger">
+            <span>Danger Message</span>
+        </div>
+    </details>
+
+    <!-- Modal -->
+    <details>
+        <summary>Modal</summary>
+
+        <p class="text-center">
+            Check
+            <a href="https://getbootstrap.com/docs/5.3/components/modal/">https://getbootstrap.com/docs/5.3/components/modal/</a>
+            for more
+        </p>
+
+        <input type="button" class="btn btn-primary" value="Launch demo modal" data-bs-toggle="modal" data-bs-target="#myModal">
+
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal Header</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Modal Body
+                    </div>
+                    <div class="modal-footer">
+                        Modal Footer
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </details>
+</body>
+</html>
